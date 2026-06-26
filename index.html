@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Beach Crab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:      #0D1B19;
+      --teal:     #1B5E57;
+      --teal-mid: #2C7873;
+      --teal-lt:  #E8F4F2;
+      --stone:    #F2E8D9;
+      --stone-dk: #DDD0BA;
+      --white:    #FFFFFF;
+      --muted:    #6B7978;
+      --wa:       #25D366;
+      --wa-dk:    #1aad52;
+    }
+
+    html {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
+      max-width: 430px;
+      margin: 0 auto;
+      background: var(--white);
+      overflow-x: hidden;
+      padding-bottom: 88px;
+    }
+
+    /* ══ HERO ══════════════════════════════════════════ */
+    .hero {
+      position: relative;
+      height: 100svh;
+      min-height: 580px;
+      overflow: hidden;
+      background: var(--ink);
+    }
+
+    /* The actual photo — swap src when ready */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg,
+          rgba(13,27,25,0.10) 0%,
+          rgba(13,27,25,0.00) 25%,
+          rgba(13,27,25,0.00) 45%,
+          rgba(13,27,25,0.55) 72%,
+          rgba(13,27,25,0.95) 100%
+        ),
+        /* Standout photo placeholder — replace with:
+           url('https://your-photo.com/ushongo.jpg') center/cover no-repeat */
+        linear-gradient(160deg,
+          #5ba89e 0%,
+          #2c7873 25%,
+          #1b5e57 55%,
+          #0d3330 100%
+        );
+      transform-origin: center;
+    }
+
+    /* Subtle texture overlay */
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 60px,
+          rgba(255,255,255,0.015) 60px,
+          rgba(255,255,255,0.015) 61px
+        );
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 28px 44px;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .hero-eyebrow-line {
+      width: 24px;
+      height: 1px;
+      background: rgba(255,255,255,0.5);
+      flex-shrink: 0;
+    }
+
+    .hero-eyebrow-text {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 54px;
+      font-weight: 300;
+      line-height: 0.95;
+      color: var(--white);
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .hero-location {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.55);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      margin-bottom: 28px;
+      margin-top: 10px;
+    }
+
+    .hero-location-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+    }
+
+    .hero-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.20);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: rgba(255,255,255,0.85);
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    .hero-pill-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #4ef5c3;
+      animation: breathe 2.4s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes breathe {
+      0%,100% { opacity:1; transform:scale(1); }
+      50% { opacity:0.5; transform:scale(0.75); }
+    }
+
+    .hero-scroll {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.40);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      margin-left: auto;
+    }
+
+    .hero-scroll-arrow {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ══ DIRECT BOOKING BANNER ═══════════════════════ */
+    .booking-banner {
+      background: var(--teal);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .bb-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .bb-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.2;
+    }
+
+    .bb-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.65);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+
+    .bb-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.90);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ══ SECTION HEAD ════════════════════════════════ */
+    .section-head {
+      padding: 40px 28px 24px;
+    }
+
+    .section-kicker {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--teal-mid);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 34px;
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+
+    .section-title em {
+      font-style: italic;
+    }
+
+    .section-body {
+      font-size: 13.5px;
+      color: var(--muted);
+      margin-top: 10px;
+      line-height: 1.65;
+      font-weight: 400;
+    }
+
+    /* ══ ROOM CARDS ══════════════════════════════════ */
+    .rooms {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: 0 20px;
+    }
+
+    .room-card {
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(13,27,25,0.08);
+      margin-bottom: 16px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .room-card:active {
+      transform: scale(0.99);
+    }
+
+    /* Photo zone */
+    .room-photo-zone {
+      position: relative;
+      aspect-ratio: 16/10;
+      overflow: hidden;
+      background: var(--stone);
+    }
+
+    .room-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo-mock {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Different gradient per room */
+    .photo-mock-1 { background: linear-gradient(135deg, #a3d5cf 0%, #3d9a93 50%, #1e6e69 100%); }
+    .photo-mock-2 { background: linear-gradient(150deg, #b5d4a8 0%, #6aaa62 50%, #3d7a36 100%); }
+    .photo-mock-3 { background: linear-gradient(140deg, #c4b89a 0%, #9a8a6a 50%, #6a5e48 100%); }
+
+    .photo-mock-inner {
+      text-align: center;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .photo-mock-inner svg { opacity: 0.5; }
+
+    .photo-mock-inner p {
+      font-size: 11px;
+      font-weight: 500;
+      margin-top: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    /* Floating room type tag */
+    .room-type-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(13,27,25,0.72);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      color: rgba(255,255,255,0.90);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+
+    /* Price floating in photo */
+    .room-photo-price {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: var(--white);
+      border-radius: 10px;
+      padding: 6px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .rpp-label {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      line-height: 1;
+    }
+
+    .rpp-amount {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+
+    .rpp-currency {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    /* Room body */
+    .room-body {
+      padding: 18px 18px 20px;
+    }
+
+    .room-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+
+    .room-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+
+    /* Amenities row */
+    .room-amenities {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .amenity {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--teal-lt);
+      color: var(--teal);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 9px 4px 7px;
+      border-radius: 5px;
+    }
+
+    .amenity svg {
+      flex-shrink: 0;
+      color: var(--teal-mid);
+    }
+
+    /* CTA row */
+    .room-cta-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .room-wa-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      flex: 1;
+      background: var(--wa);
+      color: var(--white);
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 13px 18px;
+      border-radius: 10px;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .room-wa-btn:active {
+      background: var(--wa-dk);
+      transform: scale(0.98);
+    }
+
+    .room-detail-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 46px;
+      height: 46px;
+      background: var(--stone);
+      border-radius: 10px;
+      color: var(--teal);
+      flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.2s;
+    }
+
+    .room-detail-btn:active { background: var(--stone-dk); }
+
+    /* ══ DIVIDER ════════════════════════════════════ */
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--stone-dk), transparent);
+      margin: 8px 28px 0;
+    }
+
+    /* ══ TRUST SECTION ══════════════════════════════ */
+    .trust-section {
+      padding: 36px 20px 8px;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .trust-card {
+      background: var(--stone);
+      border-radius: 14px;
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .trust-icon-wrap {
+      width: 32px;
+      height: 32px;
+      background: var(--teal);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      flex-shrink: 0;
+    }
+
+    .trust-card-title {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .trust-card-sub {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    /* ══ QUOTE STRIP ════════════════════════════════ */
+    .quote-strip {
+      margin: 28px 20px 0;
+      background: var(--ink);
+      border-radius: 16px;
+      padding: 24px 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quote-strip::before {
+      content: '\201C';
+      position: absolute;
+      top: -10px;
+      left: 14px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 120px;
+      color: rgba(255,255,255,0.06);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .quote-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--white);
+      line-height: 1.4;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 14px;
+    }
+
+    .quote-attr {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ══ BOOKING FORM ════════════════════════════════ */
+    .booking-section {
+      margin: 28px 20px 0;
+    }
+
+    .booking-form-card {
+      background: var(--ink);
+      border-radius: 20px;
+      padding: 28px 22px 32px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .booking-form-card::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: rgba(44,120,115,0.18);
+      pointer-events: none;
+    }
+
+    .booking-form-card::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; left: -40px;
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      background: rgba(44,120,115,0.10);
+      pointer-events: none;
+    }
+
+    .bf-kicker {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 8px;
+      position: relative; z-index: 1;
+    }
+
+    .bf-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30px;
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.05;
+      margin-bottom: 24px;
+      position: relative; z-index: 1;
+    }
+
+    .bf-title em { font-style: italic; }
+
+    /* Calendar */
+    .bf-field-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 8px;
+      position: relative; z-index: 1;
+    }
+
+    .bf-date-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 20px;
+      position: relative; z-index: 1;
+    }
+
+    .bf-date-box {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .bf-date-box:hover, .bf-date-box.active {
+      border-color: var(--teal-mid);
+      background: rgba(44,120,115,0.18);
+    }
+
+    .bf-date-box-label {
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.40);
+      margin-bottom: 4px;
+    }
+
+    .bf-date-box-val {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+    }
+
+    .bf-date-box-val.placeholder {
+      color: rgba(255,255,255,0.35);
+      font-weight: 400;
+    }
+
+    /* Calendar popup */
+    .cal-wrap {
+      display: none;
+      background: #132622;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 20px;
+      position: relative; z-index: 10;
+    }
+
+    .cal-wrap.open { display: block; }
+
+    .cal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .cal-nav {
+      width: 32px; height: 32px;
+      background: rgba(255,255,255,0.07);
+      border: none;
+      border-radius: 8px;
+      color: rgba(255,255,255,0.75);
+      font-size: 14px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.15s;
+    }
+
+    .cal-nav:active { background: rgba(255,255,255,0.15); }
+
+    .cal-month-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .cal-days-header {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      margin-bottom: 6px;
+    }
+
+    .cal-day-name {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.30);
+      text-align: center;
+      padding: 4px 0;
+    }
+
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+    }
+
+    .cal-cell {
+      aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.75);
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .cal-cell:hover:not(.empty):not(.past) {
+      background: rgba(44,120,115,0.35);
+      color: var(--white);
+    }
+
+    .cal-cell.empty { cursor: default; pointer-events: none; }
+
+    .cal-cell.past {
+      color: rgba(255,255,255,0.18);
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .cal-cell.selected-start, .cal-cell.selected-end {
+      background: var(--teal-mid);
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .cal-cell.in-range {
+      background: rgba(44,120,115,0.22);
+      color: rgba(255,255,255,0.90);
+      border-radius: 0;
+    }
+
+    .cal-cell.selected-start { border-radius: 8px 0 0 8px; }
+    .cal-cell.selected-end { border-radius: 0 8px 8px 0; }
+    .cal-cell.selected-start.selected-end { border-radius: 8px; }
+
+    .cal-cell.today {
+      border: 1px solid rgba(44,120,115,0.6);
+    }
+
+    /* Picker mode label */
+    .cal-picking-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      text-align: center;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    /* Divider inside form */
+    .bf-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+      margin: 4px 0 20px;
+      position: relative; z-index: 1;
+    }
+
+    /* Guest counters */
+    .bf-counters {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 24px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      overflow: hidden;
+      position: relative; z-index: 1;
+    }
+
+    .bf-counter-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .bf-counter-row:last-child { border-bottom: none; }
+
+    .bf-counter-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .bf-counter-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+    }
+
+    .bf-counter-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.38);
+      font-weight: 400;
+    }
+
+    .bf-counter-ctrl {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .bf-count-btn {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.20);
+      background: rgba(255,255,255,0.07);
+      color: var(--white);
+      font-size: 18px;
+      line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.15s, border-color 0.15s;
+      flex-shrink: 0;
+      font-weight: 300;
+    }
+
+    .bf-count-btn:active { background: var(--teal-mid); border-color: var(--teal-mid); }
+
+    .bf-count-btn:disabled {
+      opacity: 0.25;
+      cursor: default;
+    }
+
+    .bf-count-val {
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--white);
+      min-width: 18px;
+      text-align: center;
+    }
+
+    /* Banda select */
+    .bf-select-wrap {
+      margin-bottom: 20px;
+      position: relative; z-index: 1;
+    }
+
+    .bf-select {
+      width: 100%;
+      appearance: none;
+      -webkit-appearance: none;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 13px 40px 13px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--white);
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .bf-select:focus { border-color: var(--teal-mid); }
+
+    .bf-select option { background: #132622; color: var(--white); }
+
+    .bf-select-arrow {
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: rgba(255,255,255,0.40);
+    }
+
+    /* Name field */
+    .bf-input-wrap {
+      margin-bottom: 20px;
+      position: relative; z-index: 1;
+    }
+
+    .bf-input {
+      width: 100%;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 13px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .bf-input::placeholder { color: rgba(255,255,255,0.30); }
+    .bf-input:focus { border-color: var(--teal-mid); }
+
+    /* Summary line */
+    .bf-summary {
+      background: rgba(44,120,115,0.18);
+      border: 1px solid rgba(44,120,115,0.35);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      display: none;
+      position: relative; z-index: 1;
+    }
+
+    .bf-summary.visible { display: block; }
+
+    .bf-summary-text {
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.55;
+    }
+
+    .bf-summary-text strong {
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    /* Submit */
+    .bf-submit {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: var(--wa);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 16px 20px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.01em;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.2s, transform 0.1s;
+      position: relative; z-index: 1;
+    }
+
+    .bf-submit:active { background: var(--wa-dk); transform: scale(0.98); }
+
+    .bf-submit-sub {
+      display: block;
+      font-size: 10px;
+      font-weight: 400;
+      opacity: 0.70;
+      margin-top: 1px;
+      letter-spacing: 0.03em;
+    }
+
+    /* ══ BOTTOM SPACER ══════════════════════════════ */
+    .bottom-spacer { height: 28px; }
+
+    /* ══ STICKY CTA ═════════════════════════════════ */
+    .sticky-wrap {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 430px;
+      padding: 10px 20px calc(10px + env(safe-area-inset-bottom, 0px));
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-top: 1px solid rgba(13,27,25,0.07);
+      z-index: 100;
+    }
+
+    .sticky-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      background: var(--wa);
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 600;
+      padding: 16px 20px;
+      border-radius: 12px;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .sticky-btn:active {
+      background: var(--wa-dk);
+      transform: scale(0.99);
+    }
+
+    .sticky-btn-sub {
+      font-size: 10px;
+      font-weight: 400;
+      opacity: 0.75;
+      letter-spacing: 0.02em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-inner">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <span class="hero-eyebrow-text">Pangani, Tanzania</span>
+      </div>
+      <h1 class="hero-title">
+        Beach<br>
+        <em>Crab</em>
+      </h1>
+      <div class="hero-location">
+        <span>Indian Ocean</span>
+        <div class="hero-location-dot"></div>
+        <span>Beachfront</span>
+        <div class="hero-location-dot"></div>
+        <span>Owner-operated</span>
+      </div>
+      <div class="hero-cta-row">
+        <div class="hero-pill">
+          <div class="hero-pill-dot"></div>
+          Rooms available
+        </div>
+        <div class="hero-scroll">
+          <span>Scroll</span>
+          <svg class="hero-scroll-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <path d="M8 3v10M4 9l4 4 4-4"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ BOOKING BANNER ═══════════ -->
+  <div class="booking-banner">
+    <div class="bb-left">
+      <div class="bb-title">Book Direct.</div>
+      <div class="bb-sub">No commissions. No middlemen. Best price here.</div>
+    </div>
+    <div class="bb-badge">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Guaranteed
+    </div>
+  </div>
+
+  <!-- ═══════════ ROOMS ═══════════ -->
+  <div class="section-head">
+    <div class="section-kicker">Accommodation</div>
+    <h2 class="section-title">Choose your<br><em>room</em></h2>
+    <p class="section-body">Three rooms, each with its own character. All within earshot of the ocean.</p>
+  </div>
+
+  <div class="rooms">
+
+    <!-- ROOM 1 — Beachfront -->
+    <article class="room-card">
+      <div class="room-photo-zone">
+        <!-- Replace with real photo:
+        <img class="room-photo" src="https://your-url/beachfront.jpg" alt="Beachfront Banda" loading="lazy"> -->
+        <div class="photo-mock photo-mock-1">
+          <div class="photo-mock-inner">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <p>Add photo here</p>
+          </div>
+        </div>
+        <span class="room-type-tag">Beachfront</span>
+        <div class="room-photo-price">
+          <span class="rpp-label">per night</span>
+          <span class="rpp-amount">180,000</span>
+          <span class="rpp-currency">TZS</span>
+        </div>
+      </div>
+      <div class="room-body">
+        <h3 class="room-name">Beachfront Room</h3>
+        <p class="room-desc">Steps from the water. Private veranda facing the Indian Ocean — fall asleep to waves, wake to sunrise.</p>
+        <div class="room-amenities">
+          <span class="amenity">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 6 C1 6 5 3 12 6 19 9 23 6 23 6v12 C23 18 19 21 12 18 5 15 1 18 1 18z"/></svg>
+            Sea view
+          </span>
+          <span class="amenity">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            2 guests
+          </span>
+          <span class="amenity">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="10" rx="1"/><path d="M3 11V7a9 9 0 0 1 18 0v4"/></svg>
+            En-suite
+          </span>
+          <span class="amenity">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+            Veranda
+          </span>
+        </div>
+        <div class="room-cta-row">
+          <a class="room-wa-btn"
+             href="https://wa.me/255767543700?text=Hi%2C%20I%27d%20like%20to%20book%20the%20Beachfront%20Room.%20Please%20let%20me%20know%20availability%20and%20rates."
+             target="_blank" rel="noopener">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Enquire on WhatsApp
+          </a>
+          <a class="room-detail-btn" href="#" aria-label="More info">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- ROOM 2 — Garden -->
+    <article class="room-card">
+      <div class="room-photo-zone">
+        <div class="photo-mock photo-mock-2">
+          <div class="photo-mock-inner">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <p>Add photo here</p>
+          </div>
+        </div>
+        <span class="room-type-tag">Garden</span>
+        <div class="room-photo-price">
+          <span class="rpp-label">per night</span>
+          <span class="rpp-amount">130,000</span>
+          <span class="rpp-currency">TZS</span>
+        </div>
+      </div>
+      <div class="room-body">
+        <h3 class="room-name">Garden Room</h3>
+        <p class="room-desc">Set deep in tropical gardens. Cool, shaded, and quiet — a short walk through coconut palms to the beach.</p>
+        <div class="room-amenities">
+          <span class="amenity">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            Shaded
+          </span>
+          <span class="amenity">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            2 guests
+          </span>
+          <span class="amenity">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="10" rx="1"/><path d="M3 11V7a9 9 0 0 1 18 0v4"/></svg>
+            En-suite
+          </span>
+        </div>
+        <div class="room-cta-row">
+          <a class="room-wa-btn"
+             href="https://wa.me/255767543700?text=Hi%2C%20I%27d%20like%20to%20book%20the%20Garden%20Room.%20Please%20let%20me%20know%20availability%20and%20rates."
+             target="_blank" rel="noopener">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Enquire on WhatsApp
+          </a>
+          <a class="room-detail-btn" href="#" aria-label="More info">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- ROOM 3 — Family -->
+    <article class="room-card">
+      <div class="room-photo-zone">
+        <div class="photo-mock photo-mock-3">
+          <div class="photo-mock-inner">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <p>Add photo here</p>
+          </div>
+        </div>
+        <span class="room-type-tag">Family</span>
+        <div class="room-photo-price">
+          <span class="rpp-label">per night</span>
+          <span class="rpp-amount">250,000</span>
+          <span class="rpp-currency">TZS</span>
+        </div>
+      </div>
+      <div class="room-body">
+        <h3 class="room-name">Family Room</h3>
+        <p class="room-desc">Spacious and airy with two sleeping areas. Room to breathe, room to gather. Made for families and small groups.</p>
+        <div class="room-amenities">
+          <span class="amenity">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Up to 4
+          </span>
+          <span class="amenity">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            2 rooms
+          </span>
+          <span class="amenity">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="10" rx="1"/><path d="M3 11V7a9 9 0 0 1 18 0v4"/></svg>
+            En-suite
+          </span>
+          <span class="amenity">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+            Veranda
+          </span>
+        </div>
+        <div class="room-cta-row">
+          <a class="room-wa-btn"
+             href="https://wa.me/255767543700?text=Hi%2C%20I%27d%20like%20to%20book%20the%20Family%20Room.%20Please%20let%20me%20know%20availability%20and%20rates."
+             target="_blank" rel="noopener">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Enquire on WhatsApp
+          </a>
+          <a class="room-detail-btn" href="#" aria-label="More info">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- ═══════════ TRUST ═══════════ -->
+  <div class="trust-section">
+    <div class="trust-grid">
+      <div class="trust-card">
+        <div class="trust-icon-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="trust-card-title">No hidden fees</div>
+        <div class="trust-card-sub">Price you see is what you pay us directly</div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="trust-card-title">Fast replies</div>
+        <div class="trust-card-sub">We respond same day, usually within hours</div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <div class="trust-card-title">Owner-run</div>
+        <div class="trust-card-sub">Family property. Local knowledge. Real care.</div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div class="trust-card-title">WhatsApp first</div>
+        <div class="trust-card-sub">Real conversations, not automated forms</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ QUOTE ═══════════ -->
+  <div class="quote-strip">
+    <p class="quote-text">The kind of place you stop checking your phone and start watching the tide.</p>
+    <p class="quote-attr">Beach Crab — Est. Pangani Coast</p>
+  </div>
+
+  <!-- ═══════════ BOOKING FORM ═══════════ -->
+  <div class="booking-section">
+    <div class="booking-form-card">
+      <div class="bf-kicker">Reservation</div>
+      <h2 class="bf-title">Plan your<br><em>stay</em></h2>
+
+      <!-- Dates -->
+      <div class="bf-field-label">Check-in &amp; Check-out</div>
+      <div class="bf-date-row">
+        <div class="bf-date-box" id="checkin-box" onclick="openCal('checkin')">
+          <div class="bf-date-box-label">Check-in</div>
+          <div class="bf-date-box-val placeholder" id="checkin-display">Select date</div>
+        </div>
+        <div class="bf-date-box" id="checkout-box" onclick="openCal('checkout')">
+          <div class="bf-date-box-label">Check-out</div>
+          <div class="bf-date-box-val placeholder" id="checkout-display">Select date</div>
+        </div>
+      </div>
+
+      <!-- Calendar popup -->
+      <div class="cal-wrap" id="cal-wrap">
+        <div class="cal-header">
+          <button class="cal-nav" id="cal-prev" onclick="calNav(-1)" aria-label="Previous month">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <span class="cal-month-label" id="cal-month-label"></span>
+          <button class="cal-nav" id="cal-next" onclick="calNav(1)" aria-label="Next month">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+        <div class="cal-days-header">
+          <div class="cal-day-name">Su</div><div class="cal-day-name">Mo</div>
+          <div class="cal-day-name">Tu</div><div class="cal-day-name">We</div>
+          <div class="cal-day-name">Th</div><div class="cal-day-name">Fr</div>
+          <div class="cal-day-name">Sa</div>
+        </div>
+        <div class="cal-grid" id="cal-grid"></div>
+        <div class="cal-picking-label" id="cal-picking-label">Tap to select check-in date</div>
+      </div>
+
+      <div class="bf-divider"></div>
+
+      <!-- Banda -->
+      <div class="bf-field-label">Preferred Room</div>
+      <div class="bf-select-wrap">
+        <select class="bf-select" id="banda-select" onchange="updateSummary()">
+          <option value="">Any / Not sure yet</option>
+          <option value="Beachfront Room">Beachfront Room — 180,000 TZS/night</option>
+          <option value="Garden Room">Garden Room — 130,000 TZS/night</option>
+          <option value="Family Room">Family Room — 250,000 TZS/night</option>
+        </select>
+        <div class="bf-select-arrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+
+      <div class="bf-divider"></div>
+
+      <!-- Guest counters -->
+      <div class="bf-field-label">Guests</div>
+      <div class="bf-counters">
+        <div class="bf-counter-row">
+          <div class="bf-counter-info">
+            <span class="bf-counter-name">Adults</span>
+            <span class="bf-counter-sub">Ages 13 and above</span>
+          </div>
+          <div class="bf-counter-ctrl">
+            <button class="bf-count-btn" onclick="changeCount('adults',-1)" id="adults-minus" aria-label="Remove adult">−</button>
+            <span class="bf-count-val" id="adults-val">1</span>
+            <button class="bf-count-btn" onclick="changeCount('adults',1)" id="adults-plus" aria-label="Add adult">+</button>
+          </div>
+        </div>
+        <div class="bf-counter-row">
+          <div class="bf-counter-info">
+            <span class="bf-counter-name">Children</span>
+            <span class="bf-counter-sub">Ages 2 – 12</span>
+          </div>
+          <div class="bf-counter-ctrl">
+            <button class="bf-count-btn" onclick="changeCount('kids',-1)" id="kids-minus" aria-label="Remove child">−</button>
+            <span class="bf-count-val" id="kids-val">0</span>
+            <button class="bf-count-btn" onclick="changeCount('kids',1)" id="kids-plus" aria-label="Add child">+</button>
+          </div>
+        </div>
+        <div class="bf-counter-row">
+          <div class="bf-counter-info">
+            <span class="bf-counter-name">Pets</span>
+            <span class="bf-counter-sub">Let us know in advance</span>
+          </div>
+          <div class="bf-counter-ctrl">
+            <button class="bf-count-btn" onclick="changeCount('pets',-1)" id="pets-minus" aria-label="Remove pet">−</button>
+            <span class="bf-count-val" id="pets-val">0</span>
+            <button class="bf-count-btn" onclick="changeCount('pets',1)" id="pets-plus" aria-label="Add pet">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bf-divider"></div>
+
+      <!-- Name -->
+      <div class="bf-field-label">Your Name</div>
+      <div class="bf-input-wrap">
+        <input class="bf-input" type="text" id="guest-name" placeholder="First name is fine" oninput="updateSummary()" autocomplete="given-name">
+      </div>
+
+      <!-- Summary -->
+      <div class="bf-summary" id="bf-summary">
+        <div class="bf-summary-text" id="bf-summary-text"></div>
+      </div>
+
+      <!-- Submit -->
+      <button class="bf-submit" onclick="sendEnquiry()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span>
+          Send Enquiry on WhatsApp
+          <span class="bf-submit-sub">Opens WhatsApp with your details pre-filled</span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div class="bottom-spacer"></div>
+
+  <!-- ═══════════ STICKY CTA ═══════════ -->
+  <div class="sticky-wrap">
+    <a class="sticky-btn"
+       href="https://wa.me/255767543700?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20staying%20at%20Beach%20Crab."
+       target="_blank" rel="noopener">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span>Enquire on WhatsApp</span>
+    </a>
+  </div>
+
+  <script>
+    const WA = '255767543700';
+    const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const SHORT_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    let calMode = null; // 'checkin' | 'checkout'
+    let viewYear, viewMonth;
+    let checkinDate = null, checkoutDate = null;
+    const counts = { adults: 1, kids: 0, pets: 0 };
+    const MAX = 5;
+
+    function today() {
+      const d = new Date(); d.setHours(0,0,0,0); return d;
+    }
+
+    function fmtShort(d) {
+      if (!d) return null;
+      return d.getDate() + ' ' + SHORT_MONTHS[d.getMonth()] + ' ' + d.getFullYear();
+    }
+
+    function fmtFull(d) {
+      if (!d) return null;
+      return d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear();
+    }
+
+    function openCal(mode) {
+      const now = new Date();
+      viewYear = now.getFullYear();
+      viewMonth = now.getMonth();
+      calMode = mode;
+      document.getElementById('checkin-box').classList.toggle('active', mode === 'checkin');
+      document.getElementById('checkout-box').classList.toggle('active', mode === 'checkout');
+      document.getElementById('cal-picking-label').textContent =
+        mode === 'checkin' ? 'Tap to select your check-in date' : 'Tap to select your check-out date';
+      document.getElementById('cal-wrap').classList.add('open');
+      renderCal();
+    }
+
+    function closeCal() {
+      document.getElementById('cal-wrap').classList.remove('open');
+      document.getElementById('checkin-box').classList.remove('active');
+      document.getElementById('checkout-box').classList.remove('active');
+      calMode = null;
+    }
+
+    function calNav(dir) {
+      viewMonth += dir;
+      if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+      if (viewMonth < 0)  { viewMonth = 11; viewYear--; }
+      renderCal();
+    }
+
+    function renderCal() {
+      document.getElementById('cal-month-label').textContent = MONTHS[viewMonth] + ' ' + viewYear;
+      const grid = document.getElementById('cal-grid');
+      grid.innerHTML = '';
+      const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+      const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+      const t = today();
+
+      for (let i = 0; i < firstDay; i++) {
+        const el = document.createElement('button');
+        el.className = 'cal-cell empty'; el.disabled = true;
+        grid.appendChild(el);
+      }
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const date = new Date(viewYear, viewMonth, d);
+        const el = document.createElement('button');
+        el.className = 'cal-cell';
+        el.textContent = d;
+
+        if (date < t) {
+          el.classList.add('past');
+        } else {
+          const isCI = checkinDate && date.getTime() === checkinDate.getTime();
+          const isCO = checkoutDate && date.getTime() === checkoutDate.getTime();
+          const inRange = checkinDate && checkoutDate && date > checkinDate && date < checkoutDate;
+
+          if (isCI) el.classList.add('selected-start');
+          if (isCO) el.classList.add('selected-end');
+          if (isCI && isCO) { el.classList.add('selected-start'); el.classList.add('selected-end'); }
+          if (inRange) el.classList.add('in-range');
+          if (date.getTime() === t.getTime()) el.classList.add('today');
+
+          el.onclick = () => pickDate(new Date(viewYear, viewMonth, d));
+        }
+        grid.appendChild(el);
+      }
+    }
+
+    function pickDate(date) {
+      if (calMode === 'checkin') {
+        checkinDate = date;
+        if (checkoutDate && checkoutDate <= checkinDate) checkoutDate = null;
+        const el = document.getElementById('checkin-display');
+        el.textContent = fmtShort(date);
+        el.classList.remove('placeholder');
+        updateCheckoutDisplay();
+        // auto-switch to checkout if not set
+        if (!checkoutDate) {
+          calMode = 'checkout';
+          document.getElementById('checkin-box').classList.remove('active');
+          document.getElementById('checkout-box').classList.add('active');
+          document.getElementById('cal-picking-label').textContent = 'Now tap your check-out date';
+        } else {
+          closeCal();
+        }
+      } else {
+        if (checkinDate && date <= checkinDate) {
+          // swap: user picked a date before check-in while in checkout mode
+          checkoutDate = checkinDate;
+          checkinDate = date;
+          const ciEl = document.getElementById('checkin-display');
+          ciEl.textContent = fmtShort(checkinDate);
+          ciEl.classList.remove('placeholder');
+        } else {
+          checkoutDate = date;
+        }
+        updateCheckoutDisplay();
+        closeCal();
+      }
+      renderCal();
+      updateSummary();
+    }
+
+    function updateCheckoutDisplay() {
+      const el = document.getElementById('checkout-display');
+      if (checkoutDate) {
+        el.textContent = fmtShort(checkoutDate);
+        el.classList.remove('placeholder');
+      }
+    }
+
+    function nightsBetween(a, b) {
+      if (!a || !b) return 0;
+      return Math.round((b - a) / 86400000);
+    }
+
+    function changeCount(type, delta) {
+      const newVal = counts[type] + delta;
+      if (type === 'adults' && newVal < 1) return;
+      if (newVal < 0 || newVal > MAX) return;
+      counts[type] = newVal;
+      document.getElementById(type + '-val').textContent = newVal;
+      document.getElementById(type + '-minus').disabled = (type === 'adults') ? newVal <= 1 : newVal <= 0;
+      document.getElementById(type + '-plus').disabled = newVal >= MAX;
+      updateSummary();
+    }
+
+    function updateSummary() {
+      const name = document.getElementById('guest-name').value.trim();
+      const banda = document.getElementById('banda-select').value;
+      const nights = nightsBetween(checkinDate, checkoutDate);
+      const summary = document.getElementById('bf-summary');
+      const summaryText = document.getElementById('bf-summary-text');
+
+      const hasDate = checkinDate && checkoutDate;
+      if (!hasDate && !name && !banda) { summary.classList.remove('visible'); return; }
+
+      let parts = [];
+      if (name) parts.push('<strong>' + name + '</strong>');
+      if (hasDate) parts.push(fmtShort(checkinDate) + ' → ' + fmtShort(checkoutDate) + (nights > 0 ? ' <strong>(' + nights + ' night' + (nights>1?'s':'') + ')</strong>' : ''));
+      if (banda) parts.push('<strong>' + banda + '</strong>');
+
+      let guests = counts.adults + ' adult' + (counts.adults>1?'s':'');
+      if (counts.kids) guests += ', ' + counts.kids + ' child' + (counts.kids>1?'ren':'');
+      if (counts.pets) guests += ', ' + counts.pets + ' pet' + (counts.pets>1?'s':'');
+      parts.push(guests);
+
+      summaryText.innerHTML = parts.join(' · ');
+      summary.classList.add('visible');
+    }
+
+    function buildMessage() {
+      const name = document.getElementById('guest-name').value.trim();
+      const banda = document.getElementById('banda-select').value;
+      const nights = nightsBetween(checkinDate, checkoutDate);
+
+      let msg = 'Hi! I\'d like to enquire about a booking at Beach Crab.\n\n';
+      if (name) msg += '👤 Name: ' + name + '\n';
+      if (checkinDate) msg += '📅 Check-in: ' + fmtFull(checkinDate) + '\n';
+      if (checkoutDate) msg += '📅 Check-out: ' + fmtFull(checkoutDate) + '\n';
+      if (nights > 0) msg += '🌙 Nights: ' + nights + '\n';
+      msg += '👥 Adults: ' + counts.adults + '\n';
+      if (counts.kids) msg += '👶 Children: ' + counts.kids + '\n';
+      if (counts.pets) msg += '🐾 Pets: ' + counts.pets + '\n';
+      if (banda) msg += '🏠 Preferred room: ' + banda + '\n';
+      msg += '\nPlease let me know availability and rates. Thank you!';
+      return msg;
+    }
+
+    function sendEnquiry() {
+      const msg = buildMessage();
+      const url = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
+      window.open(url, '_blank', 'noopener');
+    }
+
+    // Init button states
+    document.getElementById('adults-minus').disabled = true;
+    document.getElementById('kids-minus').disabled = true;
+    document.getElementById('pets-minus').disabled = true;
+  </script>
+
+</body>
+</html>
